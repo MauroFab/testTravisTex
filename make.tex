@@ -1,0 +1,237 @@
+\documentclass[]{article}
+\setlength{\parskip}{10pt plus 1pt minus 1pt}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}
+
+%opening
+\title{Introducci\'{o}n a make}
+\author{Mauro Toscano, Dr. Mariano Mendez}
+
+\begin{document}
+
+\maketitle{}
+
+\section{Motivación}
+        El proceso de desarrollo de software implica varias etapas. Una de estas etapas es la implementación de programas, tambien conocida como programación. Esta etama además se divide en distintas tareas. Una de estas tareas se realiza cada vez que se desea compilar un programa. una de las premisas de este curso es que no se utilizarán herramientas conocidas como IDE (Integrated Development Envirronment) que muchas veces realizaan varias de estas tareas en forma automatizada para los programadores, la idea por el contrario es que se conozca en detalle que es lo que se está realizando en cada paso, en este caso del proceso de compilación.
+	Si se recuerda el ciclo escencial en el cual se trabaja cuando se resuelven problemas con una computadora, el mismo consiste en:
+        \begin{itemize}
+		\item Analisis del problema.
+		\item Diseño de la solución.
+                \item Implementación del programa.
+		\item Compilación, Ejecución y Prueba.
+                \item Mejora de la solución obtenida.
+        \end{itemize}	
+	una vez que el programa se encuentra implementado en su totalidad o parcialmente, el desarrollador muy posiblemente desee probar parte de la solución construida. Para ello es necesario compilar el programa como ya se ha visto. En este proceso se ve involucredo el sistema de compilación, que esta compuesto por: preprocesador, compilar, ensanblador y link-editor. En un sistema linux-like, en el cual se encuentra instalado GNU gcc como sistema de compilación, estos componentes son:
+        \begin{itemize}
+		\item El preprocesador de C : cpp 
+		\item El compilador: gcc
+                \item El ensamblador: as
+		\item El link-editor: ld
+        \end{itemize}	
+	
+	Suponienedo que se tenga un programa muy básic escrito en lenuage C, como el que se muestra a contrinuació llamado ex1.c:
+\begin{lstlisting}
+#include<stdio.h>
+
+int main (){
+    printf("hola, mundo \n);
+    return 0;
+}
+\end{lstlisting}
+	
+El proceso de compilación se realiza llamando a cada componente del sistema de compilacion (preprocesador, compilador, ensamblador y linke-editor), con los par\'{a}metros adecuados para lograr finalmente el archivo binario que una computadora puede entender. En este caso:
+\begin{lstlisting}
+$ gcc ex1.c -o ex1  
+\end{lstlisting}
+
+con este comando se le dice al sistema de compilacion que preprocese ex1.c , posteriormente lo compile, lo ensamble y por último lo linkedite generando un archivo ejecutable, el proceso exacto es el que se muestra en la Figura \ref{fig:compilation}. Si bien el proceso una vez entendido no es extremedamente complejo, si puede ser extenuante, cuando nuestro software crece.
+	
+{figure}[h]
+        \centering
+        \includegraphics[width=0.9\linewidth]{imagenes/compilation}
+        \caption{Proceso de Compilación}
+        \label{fig:compilation}
+\end{figure}
+
+
+La cantidad de llamadas al compilador o sus parámetros irá aumentando a mendida que el programa crezca, haciendo que sea dificil recordar exactamente todo lo que necesitamos pedirle que haga. Con el linker sucede algo similar.
+	
+	Para simplificar este proceso, es que se creo una herramienta que llamada "Make". La misma nos permitira hacer un peque\~{n}o programa que se encargue de realizar todo lo necesario para llevar nuestro codigo a un binario. Con la sencillez de tan solo indicar la palabra "make" en la terminal.
+	
+\section{Algo de historia, y además, ¿Qué es make?  }
+	
+	Make fue desarrollado por Stuart Feldman en los laboratorios Dell, en el año 1976, y comenzo a utilizarse en PWB/UNIX 1.0 en el año 77.
+	
+	Su creador había participado en en el grupo que desarrollo UNIX, y es tambi\'{e}n el autor del primer compilador de FORTRAN 77.
+	
+	La herramienta, es principalmente un automatizador para el proceso de compilaci\'{o}n y enlazado de un programa. Sirviendo adicionalmente para crear pequeños programas que nos pueden interesar para el mismo proceso.
+
+\section{}
+
+\section{¿Como usamos Make?}
+	\subsection{Reglas}
+	Para utilizar make, necesitamos entender como funciona algo que dentro de nuestro programa se llamaran "reglas".
+	
+	Las reglas constantan de algo a lo que queremos llegar,que llamaremos objetivo, objetos que necesitamos, que llamaremos prerrequisitos , y una receta para hacerlo.
+	
+	Esto se ve de la siguiente forma
+	\begin{lstlisting}
+	objetivo ... : prerrequisitos ...
+		receta
+		...
+		...
+	\end{lstlisting}
+	
+	\subsection{Primer make}
+		Supongamos que tenemos nuestro pequeño holaMundo.c que queremos compilar.
+		
+		Debemos entonces crear un archivo llamado makefile donde colocaremos nuestra primer regla que hara lo deseado.
+		
+		La misma tiene el objetivo de llegar a un ejecutable que llamaremos holaMundo.exe. Para esto requiere holaMundo.c. Y llegara con el codigo al ejecutable llamando a gcc.
+		
+		Nuestra regla entonces sera:
+		
+		\begin{lstlisting}
+		holaMundo.exe: holaMundo.c
+			gcc holaMundo.c -o holaMundo.exe
+		\end{lstlisting}
+		
+		Y en este caso muy sencillo, es todo en el makefile.
+		
+		Para compilar nuestro programa, podemos ahora escribir make en la terminal
+	
+	
+	\subsection{Compilando multiples bibliotecas propias sencillamente}
+	
+	Ahora nuestro programa ha crecido, y ya tiene diversos archivos, que deben ser compilados para que funcione el programa. 
+	
+	En este caso sencillo, todas las bibliotecas son estandar o las hemos hechos nosotros.
+	
+	Para mostrar el ejemplo, tendremos nuestro main en "holaMundo.c"
+	
+	Además, "holaMundo.c", utilizará las bibliotecas que desarrollamos en "libA.c", "libB.c" y "libC.c". A cada una además le creamos un header con los mismos nombres y terminación .h
+	
+	La solución mas sencilla con lo que sabemos hasta ahora es delegar a gcc la mayor parte del trabajo.Y entonces hacer todo con una sola receta. Esto es sencillo, pero puede no ser la mejor forma de resolver el problema:
+	
+	\begin{lstlisting}
+	holaMundo.exe: holaMundo.c libA.c libB.c libC.c
+		gcc holaMundo.c libA.c libB.c libC.c -o holaMundo.exe 
+	\end{lstlisting}
+	
+	Para hacerlo aún más sencillo, podemos utilizar wildcards. Estos "comodines" nos permiten decirle al programa que tome todos los archivos que tengan algo en común. Son propios de unix, y también los podemos usar en la linea de comando.
+	
+	En nuestro caso practicaremos ahora usando el comodin "*", que indica que tome cualquier combinación de caracteres. Así, diciendo "*.c", indicamos que tome todos los archivos que terminan en ".c".
+	
+	\begin{lstlisting}
+	holaMundo.exe: *.c
+		gcc *.c -o holaMundo.exe 
+	\end{lstlisting}
+	
+	
+	\subsection{Compilando multiples bibliotecas precisamente}
+	
+	Los métodos carecen de precisión y no pueden ser utilizados siempre.
+	
+	Quizas nos interese por ejemplo compilar alguans librerías con diferentes opciones que otras. Por ejemplo con solo algunas en modo debug. Quizas nos interese compilar teniendo la librería ya compilada y un header porque no disponemos del codigo fuente. Y otros casos que podamos imaginar.
+	
+	Entonces, vamos a armar un verdadero conjunto de reglas.
+	
+	Nos proponemos:
+		
+		Compilar el holaMundo.exe, habilitando todos los warnings, modo debug, y el estandar de 1999.
+		
+		Compilar cada biblioteca por separado, con el estandar de 1999. Sin opciones de debug o warnings.
+		
+	Para esto, dividiremos el trabajo en compilar cada biblioteca y dejar que gcc las linkee en tiempo de compilación. 
+	
+	Le daremos una terminación .o a los archivos compilados de cada biblioteca.
+	
+	Entonces tenemos:
+	
+\begin{lstlisting}
+
+holaMundo.exe: holaMundo.c  libA.o libB.o libB.o
+gcc holaMundo.c libA.o libB.o libC.o -std=c99 -Wall -g -std=c99 -o holaMundo.exe
+
+libA.o: libA.c
+	gcc -c libA.c -o libA.o -std=c99
+
+libB.o: libB.c
+	gcc -c libB.c -o libB.o -std=c99
+	
+libC.o: libC.c
+	gcc -c libC.c -o libC.o -std=c99
+
+\end{lstlisting}
+	
+	Podemos ver que con el comando -c detras del nombre del .c compilamos cada biblioteca por separado. 
+	
+Si volvemos a utilizar wildcards, podemos resumir todo esto en:
+
+\begin{lstlisting}
+
+holaMundo.exe: holaMundo.c  libA.o libB.o libB.o
+gcc holaMundo.c libA.o libB.o libC.o -std=c99 -Wall -g -std=c99 -o holaMundo.exe
+
+lib*.o: lib*.c
+gcc -c lib*.c -o lib*.o -std=c99
+
+\end{lstlisting} 
+
+Muchas veces esto se hace por medio de variables automáticas y no wildcards, que nos permiten hacer reglas mas flexibles. En caso de interés revisar la documentación anexa. 
+
+\subsection{Variables}
+
+Aunque no fue el caso anterior, en general tendremos muchas reglas. Y seguramente, muchas tengan cosas en común. Por ejemplo, quizas compilemos siempre con GCC y con algunos flags. Y en algunas recetas pongamos flags de debug. 
+
+Estos suelen ser los mismos siempre, y a veces cambian. Por lo que no es práctico escribir la misma linea una y otra vez. 
+
+Para solucionar esto, podemos usar variables. Estas se definen directamente con una etiqueta, y se les asigna un valor con el signo =. Luego donde se necesita usarlas se coloca el signo \$ y se coloca el nombre de la variable entre parentesis. 
+
+Un ejemplo de make utilizando esto puede ser el siguiente:
+
+\begin{lstlisting}
+
+CC = gcc
+CFLAGS = -std=c99
+DEBUG_FLAGS = -Wall -g
+
+holaMundo.exe: holaMundo.c  libA.o libB.o libC.o
+$(CC) $(CFLAGS) $(DEBUG_FLAGS) holaMundo.c libA.o libB.o libC.o  -o holaMundo.exe
+
+lib*.o: lib*.c
+$(CC) $(CFLAGS) -c lib*.c -o lib*.o 
+
+\end{lstlisting} 
+
+Notese que a la variable que almacena el compilador compilador se lo llama CC por convención, y a las flags CFLAGS por el mismo motivo.
+
+\subsection{Función clean}
+
+	Se suele querer luego de compilar, limpiar todos los archivos creados para voler al estado previo a la compilación.
+	
+	Para hacer esto, podemos crear una pequeña regla al final que se encargue de borrar todos los archivos, y se escribe de esta manera:
+	
+\begin{lstlisting}
+.PHONY : clean
+clean :
+	rm *.o
+	rm *.exe
+\end{lstlisting} 
+
+	Teniendola, podemos invocar a "make clean", para que borre nuestros archivos. Se puede usar una variable que contenga todo lo que se queire borrar.
+
+	Hay dos detalles importantes en esta receta que pueden pasar desapercividos. Nunca se debe poner como la primer receta del make, puesto a que si no se correría el clean cuando se trate de usar el make.
+	
+	Make parte de la primera receta, y usa las demás en tanto se necesiten para completarla.
+	
+	La otra es el .PHONY : clean. Esto hace un clean mas robusto. Si existiera un archivo que se llamara clean, y no la pusieramos, vamos a tener un comportamiento indefinido. 
+	
+\section{Referencias}
+
+	\url{https://www.gnu.org/software/make/manual/make.html}
+	
+\end{document}
+
