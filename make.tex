@@ -3,7 +3,7 @@
 \usepackage{indentfirst}
 \usepackage{listings}
 \usepackage[latin1]{inputenc}
-\usepackage{hyperref}
+\usepackage{hyperrefasdasdasd}
 
 %opening
 \title{Introducci\'{o}n a make}
@@ -13,17 +13,17 @@
 
 \maketitle{}
 
-\section{MotivaciÛn}
-        El proceso de desarrollo de software implica varias etapas. Una de estas etapas es la implementaciÛn de programas, tambien conocida como programaciÛn. Esta etama adem·s se divide en distintas tareas. Una de estas tareas se realiza cada vez que se desea compilar un programa. una de las premisas de este curso es que no se utilizar·n herramientas conocidas como IDE (Integrated Development Envirronment) que muchas veces realizaan varias de estas tareas en forma automatizada para los programadores, la idea por el contrario es que se conozca en detalle que es lo que se est· realizando en cada paso, en este caso del proceso de compilaciÛn.
+\section{Motivaci√≥n}
+        El proceso de desarrollo de software implica varias etapas. Una de estas etapas es la implementaci√≥n de programas, tambien conocida como programaci√≥n. Esta etama adem√°s se divide en distintas tareas. Una de estas tareas se realiza cada vez que se desea compilar un programa. una de las premisas de este curso es que no se utilizar√°n herramientas conocidas como IDE (Integrated Development Envirronment) que muchas veces realizaan varias de estas tareas en forma automatizada para los programadores, la idea por el contrario es que se conozca en detalle que es lo que se est√° realizando en cada paso, en este caso del proceso de compilaci√≥n.
 	Si se recuerda el ciclo escencial en el cual se trabaja cuando se resuelven problemas con una computadora, el mismo consiste en:
         \begin{itemize}
 		\item Analisis del problema.
-		\item DiseÒo de la soluciÛn.
-                \item ImplementaciÛn del programa.
-		\item CompilaciÛn, EjecuciÛn y Prueba.
-                \item Mejora de la soluciÛn obtenida.
+		\item Dise√±o de la soluci√≥n.
+                \item Implementaci√≥n del programa.
+		\item Compilaci√≥n, Ejecuci√≥n y Prueba.
+                \item Mejora de la soluci√≥n obtenida.
         \end{itemize}	
-	una vez que el programa se encuentra implementado en su totalidad o parcialmente, el desarrollador muy posiblemente desee probar parte de la soluciÛn construida. Para ello es necesario compilar el programa como ya se ha visto. En este proceso se ve involucredo el sistema de compilaciÛn, que esta compuesto por: preprocesador, compilar, ensanblador y link-editor. En un sistema linux-like, en el cual se encuentra instalado GNU gcc como sistema de compilaciÛn, estos componentes son:
+	una vez que el programa se encuentra implementado en su totalidad o parcialmente, el desarrollador muy posiblemente desee probar parte de la soluci√≥n construida. Para ello es necesario compilar el programa como ya se ha visto. En este proceso se ve involucredo el sistema de compilaci√≥n, que esta compuesto por: preprocesador, compilar, ensanblador y link-editor. En un sistema linux-like, en el cual se encuentra instalado GNU gcc como sistema de compilaci√≥n, estos componentes son:
         \begin{itemize}
 		\item El preprocesador de C : cpp 
 		\item El compilador: gcc
@@ -31,7 +31,7 @@
 		\item El link-editor: ld
         \end{itemize}	
 	
-	Suponienedo que se tenga un programa muy b·sic escrito en lenuage C, como el que se muestra a contrinuaciÛ llamado ex1.c:
+	Suponienedo que se tenga un programa muy b√°sic escrito en lenuage C, como el que se muestra a contrinuaci√≥ llamado ex1.c:
 \begin{lstlisting}
 #include<stdio.h>
 
@@ -41,28 +41,28 @@ int main (){
 }
 \end{lstlisting}
 	
-El proceso de compilaciÛn se realiza llamando a cada componente del sistema de compilacion (preprocesador, compilador, ensamblador y linke-editor), con los par\'{a}metros adecuados para lograr finalmente el archivo binario que una computadora puede entender. En este caso:
+El proceso de compilaci√≥n se realiza llamando a cada componente del sistema de compilacion (preprocesador, compilador, ensamblador y linke-editor), con los par\'{a}metros adecuados para lograr finalmente el archivo binario que una computadora puede entender. En este caso:
 \begin{lstlisting}
 $ gcc ex1.c -o ex1  
 \end{lstlisting}
 
-con este comando se le dice al sistema de compilacion que preprocese ex1.c , posteriormente lo compile, lo ensamble y por ˙ltimo lo linkedite generando un archivo ejecutable, el proceso exacto es el que se muestra en la Figura \ref{fig:compilation}. Si bien el proceso una vez entendido no es extremedamente complejo, si puede ser extenuante, cuando nuestro software crece.
+con este comando se le dice al sistema de compilacion que preprocese ex1.c , posteriormente lo compile, lo ensamble y por √∫ltimo lo linkedite generando un archivo ejecutable, el proceso exacto es el que se muestra en la Figura \ref{fig:compilation}. Si bien el proceso una vez entendido no es extremedamente complejo, si puede ser extenuante, cuando nuestro software crece.
 
-La cantidad de llamadas al compilador o sus par·metros ir· aumentando a mendida que el programa crezca, haciendo que sea dificil recordar exactamente todo lo que necesitamos pedirle que haga. Con el linker sucede algo similar.
+La cantidad de llamadas al compilador o sus par√°metros ir√° aumentando a mendida que el programa crezca, haciendo que sea dificil recordar exactamente todo lo que necesitamos pedirle que haga. Con el linker sucede algo similar.
 	
 	Para simplificar este proceso, es que se creo una herramienta que llamada "Make". La misma nos permitira hacer un peque\~{n}o programa que se encargue de realizar todo lo necesario para llevar nuestro codigo a un binario. Con la sencillez de tan solo indicar la palabra "make" en la terminal.
 	
-\section{Algo de historia, y adem·s, øQuÈ es make?  }
+\section{Algo de historia, y adem√°s, ¬øQu√© es make?  }
 	
-	Make fue desarrollado por Stuart Feldman en los laboratorios Dell, en el aÒo 1976, y comenzo a utilizarse en PWB/UNIX 1.0 en el aÒo 77.
+	Make fue desarrollado por Stuart Feldman en los laboratorios Dell, en el a√±o 1976, y comenzo a utilizarse en PWB/UNIX 1.0 en el a√±o 77.
 	
-	Su creador habÌa participado en en el grupo que desarrollo UNIX, y es tambi\'{e}n el autor del primer compilador de FORTRAN 77.
+	Su creador hab√≠a participado en en el grupo que desarrollo UNIX, y es tambi\'{e}n el autor del primer compilador de FORTRAN 77.
 	
-	La herramienta, es principalmente un automatizador para el proceso de compilaci\'{o}n y enlazado de un programa. Sirviendo adicionalmente para crear pequeÒos programas que nos pueden interesar para el mismo proceso.
+	La herramienta, es principalmente un automatizador para el proceso de compilaci\'{o}n y enlazado de un programa. Sirviendo adicionalmente para crear peque√±os programas que nos pueden interesar para el mismo proceso.
 
 \section{}
 
-\section{øComo usamos Make?}
+\section{¬øComo usamos Make?}
 	\subsection{Reglas}
 	Para utilizar make, necesitamos entender como funciona algo que dentro de nuestro programa se llamaran "reglas".
 	
@@ -77,7 +77,7 @@ La cantidad de llamadas al compilador o sus par·metros ir· aumentando a mendida 
 	\end{lstlisting}
 	
 	\subsection{Primer make}
-		Supongamos que tenemos nuestro pequeÒo holaMundo.c que queremos compilar.
+		Supongamos que tenemos nuestro peque√±o holaMundo.c que queremos compilar.
 		
 		Debemos entonces crear un archivo llamado makefile donde colocaremos nuestra primer regla que hara lo deseado.
 		
@@ -103,18 +103,18 @@ La cantidad de llamadas al compilador o sus par·metros ir· aumentando a mendida 
 	
 	Para mostrar el ejemplo, tendremos nuestro main en "holaMundo.c"
 	
-	Adem·s, "holaMundo.c", utilizar· las bibliotecas que desarrollamos en "libA.c", "libB.c" y "libC.c". A cada una adem·s le creamos un header con los mismos nombres y terminaciÛn .h
+	Adem√°s, "holaMundo.c", utilizar√° las bibliotecas que desarrollamos en "libA.c", "libB.c" y "libC.c". A cada una adem√°s le creamos un header con los mismos nombres y terminaci√≥n .h
 	
-	La soluciÛn mas sencilla con lo que sabemos hasta ahora es delegar a gcc la mayor parte del trabajo.Y entonces hacer todo con una sola receta. Esto es sencillo, pero puede no ser la mejor forma de resolver el problema:
+	La soluci√≥n mas sencilla con lo que sabemos hasta ahora es delegar a gcc la mayor parte del trabajo.Y entonces hacer todo con una sola receta. Esto es sencillo, pero puede no ser la mejor forma de resolver el problema:
 	
 	\begin{lstlisting}
 	holaMundo.exe: holaMundo.c libA.c libB.c libC.c
 		gcc holaMundo.c libA.c libB.c libC.c -o holaMundo.exe 
 	\end{lstlisting}
 	
-	Para hacerlo a˙n m·s sencillo, podemos utilizar wildcards. Estos "comodines" nos permiten decirle al programa que tome todos los archivos que tengan algo en com˙n. Son propios de unix, y tambiÈn los podemos usar en la linea de comando.
+	Para hacerlo a√∫n m√°s sencillo, podemos utilizar wildcards. Estos "comodines" nos permiten decirle al programa que tome todos los archivos que tengan algo en com√∫n. Son propios de unix, y tambi√©n los podemos usar en la linea de comando.
 	
-	En nuestro caso practicaremos ahora usando el comodin "*", que indica que tome cualquier combinaciÛn de caracteres. AsÌ, diciendo "*.c", indicamos que tome todos los archivos que terminan en ".c".
+	En nuestro caso practicaremos ahora usando el comodin "*", que indica que tome cualquier combinaci√≥n de caracteres. As√≠, diciendo "*.c", indicamos que tome todos los archivos que terminan en ".c".
 	
 	\begin{lstlisting}
 	holaMundo.exe: *.c
@@ -124,9 +124,9 @@ La cantidad de llamadas al compilador o sus par·metros ir· aumentando a mendida 
 	
 	\subsection{Compilando multiples bibliotecas precisamente}
 	
-	Los mÈtodos carecen de precisiÛn y no pueden ser utilizados siempre.
+	Los m√©todos carecen de precisi√≥n y no pueden ser utilizados siempre.
 	
-	Quizas nos interese por ejemplo compilar alguans librerÌas con diferentes opciones que otras. Por ejemplo con solo algunas en modo debug. Quizas nos interese compilar teniendo la librerÌa ya compilada y un header porque no disponemos del codigo fuente. Y otros casos que podamos imaginar.
+	Quizas nos interese por ejemplo compilar alguans librer√≠as con diferentes opciones que otras. Por ejemplo con solo algunas en modo debug. Quizas nos interese compilar teniendo la librer√≠a ya compilada y un header porque no disponemos del codigo fuente. Y otros casos que podamos imaginar.
 	
 	Entonces, vamos a armar un verdadero conjunto de reglas.
 	
@@ -136,9 +136,9 @@ La cantidad de llamadas al compilador o sus par·metros ir· aumentando a mendida 
 		
 		Compilar cada biblioteca por separado, con el estandar de 1999. Sin opciones de debug o warnings.
 		
-	Para esto, dividiremos el trabajo en compilar cada biblioteca y dejar que gcc las linkee en tiempo de compilaciÛn. 
+	Para esto, dividiremos el trabajo en compilar cada biblioteca y dejar que gcc las linkee en tiempo de compilaci√≥n. 
 	
-	Le daremos una terminaciÛn .o a los archivos compilados de cada biblioteca.
+	Le daremos una terminaci√≥n .o a los archivos compilados de cada biblioteca.
 	
 	Entonces tenemos:
 	
@@ -172,13 +172,13 @@ gcc -c lib*.c -o lib*.o -std=c99
 
 \end{lstlisting} 
 
-Muchas veces esto se hace por medio de variables autom·ticas y no wildcards, que nos permiten hacer reglas mas flexibles. En caso de interÈs revisar la documentaciÛn anexa. 
+Muchas veces esto se hace por medio de variables autom√°ticas y no wildcards, que nos permiten hacer reglas mas flexibles. En caso de inter√©s revisar la documentaci√≥n anexa. 
 
 \subsection{Variables}
 
-Aunque no fue el caso anterior, en general tendremos muchas reglas. Y seguramente, muchas tengan cosas en com˙n. Por ejemplo, quizas compilemos siempre con GCC y con algunos flags. Y en algunas recetas pongamos flags de debug. 
+Aunque no fue el caso anterior, en general tendremos muchas reglas. Y seguramente, muchas tengan cosas en com√∫n. Por ejemplo, quizas compilemos siempre con GCC y con algunos flags. Y en algunas recetas pongamos flags de debug. 
 
-Estos suelen ser los mismos siempre, y a veces cambian. Por lo que no es pr·ctico escribir la misma linea una y otra vez. 
+Estos suelen ser los mismos siempre, y a veces cambian. Por lo que no es pr√°ctico escribir la misma linea una y otra vez. 
 
 Para solucionar esto, podemos usar variables. Estas se definen directamente con una etiqueta, y se les asigna un valor con el signo =. Luego donde se necesita usarlas se coloca el signo \$ y se coloca el nombre de la variable entre parentesis. 
 
@@ -198,13 +198,13 @@ $(CC) $(CFLAGS) -c lib*.c -o lib*.o
 
 \end{lstlisting} 
 
-Notese que a la variable que almacena el compilador compilador se lo llama CC por convenciÛn, y a las flags CFLAGS por el mismo motivo.
+Notese que a la variable que almacena el compilador compilador se lo llama CC por convenci√≥n, y a las flags CFLAGS por el mismo motivo.
 
-\subsection{FunciÛn clean}
+\subsection{Funci√≥n clean}
 
-	Se suele querer luego de compilar, limpiar todos los archivos creados para voler al estado previo a la compilaciÛn.
+	Se suele querer luego de compilar, limpiar todos los archivos creados para voler al estado previo a la compilaci√≥n.
 	
-	Para hacer esto, podemos crear una pequeÒa regla al final que se encargue de borrar todos los archivos, y se escribe de esta manera:
+	Para hacer esto, podemos crear una peque√±a regla al final que se encargue de borrar todos los archivos, y se escribe de esta manera:
 	
 \begin{lstlisting}
 .PHONY : clean
@@ -215,9 +215,9 @@ clean :
 
 	Teniendola, podemos invocar a "make clean", para que borre nuestros archivos. Se puede usar una variable que contenga todo lo que se queire borrar.
 
-	Hay dos detalles importantes en esta receta que pueden pasar desapercividos. Nunca se debe poner como la primer receta del make, puesto a que si no se correrÌa el clean cuando se trate de usar el make.
+	Hay dos detalles importantes en esta receta que pueden pasar desapercividos. Nunca se debe poner como la primer receta del make, puesto a que si no se correr√≠a el clean cuando se trate de usar el make.
 	
-	Make parte de la primera receta, y usa las dem·s en tanto se necesiten para completarla.
+	Make parte de la primera receta, y usa las dem√°s en tanto se necesiten para completarla.
 	
 	La otra es el .PHONY : clean. Esto hace un clean mas robusto. Si existiera un archivo que se llamara clean, y no la pusieramos, vamos a tener un comportamiento indefinido. 
 	
