@@ -1,5 +1,5 @@
 build:
-    ci:
-	- sudo apt-get install texlive-full
-	- pdflatex make.tex
+ci:
+- sudo apt-get install texlive-full
+- pdflatex make.tex
 
