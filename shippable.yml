@@ -1,7 +1,6 @@
-language: ruby
-
 build:
 ci:
+- rvm use $SHIPPABLE_RUBY
 - sudo apt-get install texlive-full
 - pdflatex make.tex
 
