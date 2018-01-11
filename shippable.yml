@@ -1,7 +1,6 @@
 language: python
 build:
 ci:
-- gem install bundle
 - sudo apt-get install texlive-full
 - pdflatex make.tex
 
