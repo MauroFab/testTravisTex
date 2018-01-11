@@ -1,6 +1,7 @@
+language: python
 build:
 ci:
-- rvm use $SHIPPABLE_RUBY
+- gem install bundle
 - sudo apt-get install texlive-full
 - pdflatex make.tex
 
