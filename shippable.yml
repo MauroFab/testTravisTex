@@ -1,6 +1,5 @@
 language: python
-build:
-ci:
+script:
 - sudo apt-get install texlive-full
 - mkdir _build
 - pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build make.tex
