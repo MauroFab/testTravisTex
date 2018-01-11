@@ -1,16 +1,25 @@
-sudo: required
-dist: trusty
-before_install:
-- sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended
+install:
+  # Check texlive version
+  - tlmgr version -v
+  # Update texlive
+  - tlmgr update --all
+
+before_script:
+  # Check texlive version
+  - tlmgr version -v
+  # Check which tex packages we have available
+  - tlmgr info --only-installed ||
+        echo "Couldn't retrieve the texlive package list!"
+
 script:
-- mkdir _build
-- pdflatex -interaction=nonstopmode -halt-on-error -output-directory _build make.tex
-deploy:
-  provider: releases
-  api_key:
-    secure: [YOUR KEY]
-  file:
-  - _build/make.tex
-  skip_cleanup: true
-  on:
-    tags: true
+  - latex -halt-on-error -interaction nonstopmode make.tex
+  - pdflatex -halt-on-error -interaction nonstopmode make.tex
+
+before_archive:
+  # Archive the TeX log files, and any generated output files
+  - mkdir -p shippable/;
+    cp -f *.log shippable/;
+    cp -f *.dvi shippable/;
+    cp -f *.pdf shippable/;
+
+archive: true
