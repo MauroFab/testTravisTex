@@ -1,4 +1,4 @@
-build_image: harshjv/texlive-2015
+build_image: onohr/texlive
 
 install:
   # Check texlive version
